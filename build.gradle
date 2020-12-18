@@ -1,0 +1,48 @@
+plugins {
+    id 'application'
+    id 'jacoco'
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+archivesBaseName = 'GraphColoringGame'
+
+application {
+    mainClass = 'de.tukl.programmierpraktikum2020.p2.main.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'de/tukl/programmierpraktikum2020/p2/main/**')
+        }))
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    implementation 'net.sf.jung:jung-graph-impl:2.1.1'
+    implementation 'net.sf.jung:jung-algorithms:2.1.1'
+    implementation 'net.sf.jung:jung-visualization:2.1.1'
+    implementation 'org.orbisgis:poly2tri-core:0.1.2'
+    runtimeOnly 'org.slf4j:slf4j-nop:1.6.0'
+}

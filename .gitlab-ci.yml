@@ -1,0 +1,55 @@
+MP1:
+  image: openjdk:11
+  script:
+    - cd MP1
+    - ./gradlew test
+  artifacts:
+    paths:
+      - MP1/build/reports
+    when: always
+    expire_in: 2 weeks
+  rules:
+    - changes:
+      - MP1/**/*
+
+MP2:
+  image: openjdk:11
+  script:
+    - cd MP2
+    - ./gradlew test
+  artifacts:
+    paths:
+      - MP2/build/reports
+    when: always
+    expire_in: 2 weeks
+  rules:
+    - changes:
+      - MP2/**/*
+
+P1:
+  image: openjdk:11
+  script:
+    - cd P1
+    - ./gradlew test
+  artifacts:
+    paths:
+      - P1/build/reports
+    when: always
+    expire_in: 2 weeks
+  rules:
+    - changes:
+      - P1/**/*
+
+P2:
+  image: openjdk:11
+  script:
+    - cd P2
+    - ./gradlew test
+  artifacts:
+    paths:
+      - P2/build/reports
+    when: always
+    expire_in: 2 weeks
+  rules:
+    - changes:
+      - P2/**/*
